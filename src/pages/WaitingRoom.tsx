@@ -4,18 +4,23 @@ import { motion, AnimatePresence } from "framer-motion";
 import GenZPlacifyLogo from "@/components/GenZPlacifyLogo";
 import LeafParticles from "@/components/waiting-room/LeafParticles";
 import SonarRadar from "@/components/waiting-room/SonarRadar";
-import FloatingVoices from "@/components/waiting-room/FloatingVoices";
-import QueueStatus from "@/components/waiting-room/QueueStatus";
+import SeniorTipsGrid from "@/components/waiting-room/SeniorTipsGrid";
 import ReadyButton from "@/components/waiting-room/ReadyButton";
 import AIFallbackModal from "@/components/waiting-room/AIFallbackModal";
 import ExitWarningModal from "@/components/waiting-room/ExitWarningModal";
 import { Button } from "@/components/ui/button";
-import { Loader2, Radio } from "lucide-react";
+import { Loader2, Radio, LogOut, Clock } from "lucide-react";
 
 const TOTAL_TIME = 300; // 5 minutes in seconds
 const MAX_PARTICIPANTS = 5;
 
 const sampleNames = ["Arjun", "Priya", "Rahul", "Sneha", "Vikram", "Ananya", "Karthik", "Divya"];
+
+const formatTime = (seconds: number) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+};
 
 const WaitingRoom = () => {
   const navigate = useNavigate();
@@ -31,7 +36,7 @@ const WaitingRoom = () => {
   // Initialize with random participants
   useEffect(() => {
     const timer = setTimeout(() => {
-      const initialCount = Math.floor(Math.random() * 2) + 1; // 1-2 initial participants
+      const initialCount = Math.floor(Math.random() * 2) + 1;
       const initial = Array.from({ length: initialCount }, (_, i) => ({
         id: i + 1,
         name: sampleNames[i],
@@ -51,7 +56,6 @@ const WaitingRoom = () => {
     const interval = setInterval(() => {
       setRemainingTime((prev) => {
         if (prev <= 1) {
-          // Timer hit zero - show AI fallback if not enough participants
           if (participants.length < MAX_PARTICIPANTS) {
             setShowAIModal(true);
           } else {
@@ -66,12 +70,12 @@ const WaitingRoom = () => {
     return () => clearInterval(interval);
   }, [isLoading, isRoomReady, participants.length]);
 
-  // Simulate random participant joins
+  // Simulate random participant joins (every 5 seconds for demo)
   useEffect(() => {
     if (isLoading || participants.length >= MAX_PARTICIPANTS) return;
 
     const scheduleNextJoin = () => {
-      const delay = Math.random() * 25000 + 10000; // 10-35 seconds
+      const delay = 5000; // 5 seconds for demo
       return setTimeout(() => {
         setParticipants((prev) => {
           if (prev.length >= MAX_PARTICIPANTS) return prev;
@@ -120,13 +124,17 @@ const WaitingRoom = () => {
 
   const handleExitConfirm = () => {
     setShowExitModal(false);
-    navigate("/");
+    navigate("/gd-portal");
   };
 
   const handleAIFallbackContinue = () => {
     setShowAIModal(false);
     handleEnterRoom();
   };
+
+  // Timer progress (0-1)
+  const timerProgress = remainingTime / TOTAL_TIME;
+  const isTimerWarning = remainingTime < 60;
 
   if (isLoading) {
     return (
@@ -155,14 +163,13 @@ const WaitingRoom = () => {
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        className="min-h-screen bg-gradient-hero animate-gradient-shift overflow-hidden relative"
+        className="min-h-screen bg-gradient-hero animate-gradient-shift overflow-hidden relative flex flex-col"
         initial={{ opacity: 0 }}
         animate={{ opacity: isExiting ? 0 : 1 }}
         transition={{ duration: 0.5 }}
       >
         {/* Background elements */}
         <LeafParticles />
-        <FloatingVoices />
 
         {/* Header */}
         <motion.header
@@ -171,74 +178,47 @@ const WaitingRoom = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <div className="flex items-center justify-between max-w-6xl mx-auto">
+          <div className="flex items-center justify-center max-w-6xl mx-auto">
             <GenZPlacifyLogo size="md" />
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowExitModal(true)}
-              className="text-muted-foreground hover:text-destructive font-body hover-scale"
-            >
-              Exit Room
-            </Button>
           </div>
         </motion.header>
 
         {/* Main content */}
-        <main className="min-h-screen flex flex-col items-center justify-center px-4 pt-20 pb-8">
-          {/* Queue Status - Top */}
+        <main className="flex-1 flex flex-col items-center justify-start px-4 pt-24 pb-32">
+          {/* Radar Section */}
           <motion.div
-            className="mb-8"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <QueueStatus
-              currentCount={participants.length}
-              maxCount={MAX_PARTICIPANTS}
-              remainingSeconds={remainingTime}
-              totalSeconds={TOTAL_TIME}
-            />
-          </motion.div>
-
-          {/* Radar Title */}
-          <motion.div
-            className="text-center mb-6"
+            className="text-center mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            transition={{ delay: 0.2 }}
           >
             <div className="flex items-center justify-center gap-2 mb-2">
               <Radio className="w-5 h-5 text-forest-medium animate-pulse-soft" />
               <h2 className="font-display text-xl md:text-2xl font-bold text-foreground">
-                Broadcasting Signal
+                Searching for Peers
               </h2>
             </div>
-            <p className="text-muted-foreground font-body text-sm md:text-base">
-              Searching for Logic Warriors
-              <span className="inline-flex ml-1">
-                <span className="animate-pulse">.</span>
-                <span className="animate-pulse" style={{ animationDelay: "0.2s" }}>.</span>
-                <span className="animate-pulse" style={{ animationDelay: "0.4s" }}>.</span>
-              </span>
+            <p className="text-forest-deep font-body font-medium text-base md:text-lg">
+              Matching Logic... ({participants.length}/{MAX_PARTICIPANTS} Found)
             </p>
           </motion.div>
 
-          {/* Sonar Radar - Centerpiece */}
+          {/* Sonar Radar with Avatar Slots */}
           <motion.div
             className="mb-8"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, type: "spring", damping: 20 }}
+            transition={{ delay: 0.3, type: "spring", damping: 20 }}
           >
             <SonarRadar participants={participants} maxParticipants={MAX_PARTICIPANTS} />
           </motion.div>
 
-          {/* Ready / Enter Button */}
+          {/* Ready Button */}
           <motion.div
+            className="mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.4 }}
           >
             <ReadyButton
               isReady={isUserReady}
@@ -247,7 +227,85 @@ const WaitingRoom = () => {
               onEnter={handleEnterRoom}
             />
           </motion.div>
+
+          {/* Senior Tips Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <SeniorTipsGrid />
+          </motion.div>
         </main>
+
+        {/* Bottom Bar - Fixed */}
+        <motion.div
+          className="fixed bottom-0 left-0 right-0 z-40 px-4 py-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <div className="glass-forest rounded-2xl max-w-2xl mx-auto px-6 py-4 flex items-center justify-between">
+            {/* Timer */}
+            <div className="flex items-center gap-3">
+              <div className="relative w-12 h-12">
+                {/* Circular progress */}
+                <svg className="w-full h-full -rotate-90" viewBox="0 0 48 48">
+                  <circle
+                    cx="24"
+                    cy="24"
+                    r="20"
+                    stroke="hsl(var(--muted))"
+                    strokeWidth="3"
+                    fill="none"
+                  />
+                  <circle
+                    cx="24"
+                    cy="24"
+                    r="20"
+                    stroke={isTimerWarning ? "hsl(var(--gold-warm))" : "hsl(var(--forest-medium))"}
+                    strokeWidth="3"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeDasharray={`${timerProgress * 125.6} 125.6`}
+                    className="transition-all duration-1000"
+                  />
+                </svg>
+                <Clock 
+                  className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 ${
+                    isTimerWarning ? "text-gold-warm" : "text-forest-medium"
+                  }`} 
+                />
+              </div>
+              <div>
+                <p className={`font-display text-2xl font-bold ${
+                  isTimerWarning ? "text-gold-warm" : "text-forest-deep"
+                }`}>
+                  {formatTime(remainingTime)}
+                </p>
+                <p className="font-body text-xs text-muted-foreground">Time remaining</p>
+              </div>
+            </div>
+
+            {/* Lobby Status Pill */}
+            <div className="hidden md:flex items-center gap-2 px-4 py-2 bg-sage/30 rounded-full">
+              <div className="w-2 h-2 rounded-full bg-forest-medium animate-pulse" />
+              <span className="font-body text-sm font-medium text-forest-deep">
+                Lobby: {participants.length}/{MAX_PARTICIPANTS}
+              </span>
+            </div>
+
+            {/* Leave Queue Button */}
+            <Button
+              variant="ghost"
+              onClick={() => setShowExitModal(true)}
+              className="text-destructive hover:bg-destructive/10 font-body gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span className="hidden sm:inline">Leave Queue</span>
+            </Button>
+          </div>
+        </motion.div>
 
         {/* Exit Warning Modal */}
         <ExitWarningModal

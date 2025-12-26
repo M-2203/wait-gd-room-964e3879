@@ -155,6 +155,14 @@ export default {
           "0%, 100%": { backgroundPosition: "0% 50%" },
           "50%": { backgroundPosition: "100% 50%" },
         },
+        "shimmer": {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
+        "breathe": {
+          "0%, 100%": { opacity: "0.9", transform: "scale(1)" },
+          "50%": { opacity: "1", transform: "scale(1.01)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -176,6 +184,8 @@ export default {
         "ping-dot": "ping-dot 0.4s ease-out forwards",
         "confetti": "confetti 0.8s ease-out forwards",
         "gradient-shift": "gradient-shift 8s ease infinite",
+        "shimmer": "shimmer 2s linear infinite",
+        "breathe": "breathe 3s ease-in-out infinite",
       },
     },
   },
