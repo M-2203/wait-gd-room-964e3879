@@ -61,7 +61,6 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Forest Theme Colors
         "forest-deep": "hsl(var(--forest-deep))",
         "forest-medium": "hsl(var(--forest-medium))",
         "sage": "hsl(var(--sage))",
@@ -123,6 +122,39 @@ export default {
           "0%, 100%": { boxShadow: "0 0 20px hsl(var(--forest-medium) / 0.3)" },
           "50%": { boxShadow: "0 0 40px hsl(var(--forest-medium) / 0.5)" },
         },
+        "ripple": {
+          "0%": { transform: "scale(0.8)", opacity: "1" },
+          "100%": { transform: "scale(2.5)", opacity: "0" },
+        },
+        "sonar": {
+          "0%": { transform: "scale(1)", opacity: "0.5" },
+          "100%": { transform: "scale(2.5)", opacity: "0" },
+        },
+        "leaf-fall": {
+          "0%": { transform: "translateY(-10vh) rotate(0deg)", opacity: "0" },
+          "10%": { opacity: "0.7" },
+          "90%": { opacity: "0.7" },
+          "100%": { transform: "translateY(110vh) rotate(720deg)", opacity: "0" },
+        },
+        "bubble-rise": {
+          "0%": { transform: "translateY(0) scale(0.8)", opacity: "0" },
+          "10%": { opacity: "1" },
+          "90%": { opacity: "0.9" },
+          "100%": { transform: "translateY(-100vh) scale(1)", opacity: "0" },
+        },
+        "ping-dot": {
+          "0%": { transform: "scale(0)", opacity: "1" },
+          "50%": { transform: "scale(1.2)", opacity: "1" },
+          "100%": { transform: "scale(1)", opacity: "1" },
+        },
+        "confetti": {
+          "0%": { transform: "translateY(0) rotate(0deg)", opacity: "1" },
+          "100%": { transform: "translateY(-100px) rotate(720deg)", opacity: "0" },
+        },
+        "gradient-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -137,6 +169,13 @@ export default {
         "spin-leaf": "spin-leaf 2s linear infinite",
         "scale-in": "scale-in 0.3s ease-out forwards",
         "glow": "glow 2s ease-in-out infinite",
+        "ripple": "ripple 0.6s ease-out forwards",
+        "sonar": "sonar 2s ease-out infinite",
+        "leaf-fall": "leaf-fall 15s linear infinite",
+        "bubble-rise": "bubble-rise 12s ease-in-out forwards",
+        "ping-dot": "ping-dot 0.4s ease-out forwards",
+        "confetti": "confetti 0.8s ease-out forwards",
+        "gradient-shift": "gradient-shift 8s ease infinite",
       },
     },
   },
