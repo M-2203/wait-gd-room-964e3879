@@ -31,7 +31,7 @@ const Index = () => {
         <div className="flex items-center justify-between max-w-6xl mx-auto">
           <GenZPlacifyLogo size="md" />
           <Button
-            onClick={() => navigate("/waiting-room")}
+            onClick={() => navigate("/gd-portal")}
             className="bg-forest-medium hover:bg-forest-deep text-primary-foreground font-body"
           >
             Join GD
@@ -64,11 +64,11 @@ const Index = () => {
             </p>
 
             <Button
-              onClick={() => navigate("/waiting-room")}
+              onClick={() => navigate("/gd-portal")}
               size="lg"
               className="bg-forest-medium hover:bg-forest-deep text-primary-foreground font-body px-8 py-6 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 animate-pulse-soft"
             >
-              Enter Waiting Room
+              Start GD Practice
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
