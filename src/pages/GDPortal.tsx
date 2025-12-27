@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MessageCircle, Cog, Zap, Brain, Timer, Mic, CheckCircle, Volume2, FileText } from "lucide-react";
-import GenZPlacifyLogo from "@/components/GenZPlacifyLogo";
+import MockelloLogo from "@/components/MockelloLogo";
 import LeafParticles from "@/components/waiting-room/LeafParticles";
 
 const steps = [
@@ -61,7 +61,7 @@ const GDPortal = () => {
         transition={{ delay: 0.1 }}
       >
         <div className="flex items-center justify-center max-w-6xl mx-auto">
-          <GenZPlacifyLogo size="md" />
+          <MockelloLogo size="md" />
         </div>
       </motion.header>
 

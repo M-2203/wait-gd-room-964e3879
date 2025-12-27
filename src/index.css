@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Gen-Z Placify Design System - Forest Zen Theme */
+/* Mockello Design System - Forest Zen Theme */
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
@@ -46,6 +46,15 @@
     --cream: 100 20% 97%;
     --gold: 30 45% 65%;
     --gold-warm: 35 55% 55%;
+
+    /* GD Room Color Variables */
+    --green-primary: 152 54% 18%;
+    --green-dark: 152 60% 12%;
+    --green-light: 145 45% 72%;
+    --green-soft: 140 30% 85%;
+    --green-muted: 150 20% 50%;
+    --bg-main: 100 20% 97%;
+    --bg-card: 0 0% 100%;
 
     /* Glassmorphism */
     --glass-bg: 0 0% 100% / 0.7;
