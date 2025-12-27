@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import GenZPlacifyLogo from "@/components/GenZPlacifyLogo";
+import MockelloLogo from "@/components/MockelloLogo";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Clock, Brain } from "lucide-react";
 
@@ -29,7 +29,7 @@ const Index = () => {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 px-4 py-4 md:px-8 glass-forest">
         <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <GenZPlacifyLogo size="md" />
+          <MockelloLogo size="md" />
           <Button
             onClick={() => navigate("/gd-portal")}
             className="bg-forest-medium hover:bg-forest-deep text-primary-foreground font-body"
