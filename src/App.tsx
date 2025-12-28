@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import GDPortal from "./pages/GDPortal";
 import WaitingRoom from "./pages/WaitingRoom";
-import GDRoom from "./pages/GDRoom";
+import GDRoomAI from "./pages/GDRoomAI";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,7 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/gd-portal" element={<GDPortal />} />
           <Route path="/waiting-room" element={<WaitingRoom />} />
-          <Route path="/gd-room" element={<GDRoom />} />
+          <Route path="/gd-room-ai" element={<GDRoomAI />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

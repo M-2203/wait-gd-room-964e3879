@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import MockelloLogo from "@/components/MockelloLogo";
+import GenZPlacifyLogo from "@/components/GenZPlacifyLogo";
 import LeafParticles from "@/components/waiting-room/LeafParticles";
 import SonarRadar from "@/components/waiting-room/SonarRadar";
 import SeniorTipsGrid from "@/components/waiting-room/SeniorTipsGrid";
@@ -114,7 +114,7 @@ const WaitingRoom = () => {
   const handleEnterRoom = useCallback(() => {
     setIsExiting(true);
     setTimeout(() => {
-      navigate("/gd-room");
+      navigate("/gd-room-ai");
     }, 500);
   }, [navigate]);
 
@@ -145,7 +145,7 @@ const WaitingRoom = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <MockelloLogo size="lg" className="mb-8" />
+          <GenZPlacifyLogo size="lg" className="mb-8" />
         </motion.div>
         <motion.div
           className="flex flex-col items-center gap-4"
@@ -179,7 +179,7 @@ const WaitingRoom = () => {
           transition={{ delay: 0.1 }}
         >
           <div className="flex items-center justify-center max-w-6xl mx-auto">
-            <MockelloLogo size="md" />
+            <GenZPlacifyLogo size="md" />
           </div>
         </motion.header>
 
