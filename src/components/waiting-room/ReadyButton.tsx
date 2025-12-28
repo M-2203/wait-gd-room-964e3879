@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, ArrowRight, Check } from "lucide-react";
 
@@ -17,8 +18,14 @@ interface Confetti {
 }
 
 const ReadyButton = ({ isReady, isRoomReady, onReady, onEnter }: ReadyButtonProps) => {
+  const navigate = useNavigate();
   const [confetti, setConfetti] = useState<Confetti[]>([]);
   const [ripple, setRipple] = useState(false);
+
+  const handleEnterRoom = () => {
+    onEnter();
+    navigate('/gd-room');
+  };
 
   const handleReadyClick = () => {
     if (isReady) return;
@@ -45,7 +52,7 @@ const ReadyButton = ({ isReady, isRoomReady, onReady, onEnter }: ReadyButtonProp
   if (isRoomReady) {
     return (
       <motion.button
-        onClick={onEnter}
+        onClick={handleEnterRoom}
         className="btn-forest flex items-center gap-3 text-lg shadow-glow"
         whileHover={{ scale: 1.05, y: -2 }}
         whileTap={{ scale: 0.98 }}
